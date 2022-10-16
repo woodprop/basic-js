@@ -14,7 +14,13 @@ const chainMaker = {
     return this;
   },
   removeLink(position) {
-    this.chain.splice(position, 1);
+    console.log(position)
+    console.log(this.chain)
+    if (this.chain[position - 1] === undefined) {
+      this.chain = [];
+      throw new Error('You can\'t remove incorrect link!');
+    }
+    this.chain.splice(position - 1, 1);
     return this;
   },
   reverseChain() {
@@ -28,6 +34,7 @@ const chainMaker = {
     }
     res += `( ${this.chain[this.chain.length - 1]} )`;
 
+    this.chain = [];
     return res;
   }
 };
