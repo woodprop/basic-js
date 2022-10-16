@@ -23,9 +23,89 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+function minesweeper(matrix) {
+  const res = [];
+
+  // ************** ГОВНОКОД *****************************
+
+  for (let row = 0; row < matrix.length; row++) {
+    res.push([]);
+
+    for (let col = 0; col < matrix[row].length; col++) {
+      let counter = 0;
+
+      if (row === 0) {
+        counter += matrix[row + 1][col] ? 1 : 0;    //клетка снизу
+        if (col === 0) {
+          counter += matrix[row][col + 1] ? 1 : 0;  //клетка справа
+          counter += matrix[row + 1][col + 1] ? 1 : 0;  //клетка справа снизу
+        } else if (col === matrix[row].length - 1) {
+          counter += matrix[row][col - 1] ? 1 : 0;  //клетка слева
+          counter += matrix[row + 1][col - 1] ? 1 : 0;  //клетка слева снизу
+        } else {
+          counter += matrix[row][col - 1] ? 1 : 0;  //клетка слева
+          counter += matrix[row + 1][col - 1] ? 1 : 0;  //клетка слева снизу
+          counter += matrix[row][col + 1] ? 1 : 0;  //клетка справа
+          counter += matrix[row + 1][col + 1] ? 1 : 0;  //клетка справа снизу
+        }
+
+
+      } else if (row === matrix.length - 1) {
+        counter += matrix[row - 1][col] ? 1 : 0;    //клетка сверху
+        if (col === 0) {
+          counter += matrix[row][col + 1] ? 1 : 0;  //клетка справа
+          counter += matrix[row - 1][col + 1] ? 1 : 0;  //клетка справа сверху
+        } else if (col === matrix[row].length - 1) {
+          counter += matrix[row][col - 1] ? 1 : 0;  //клетка слева
+          counter += matrix[row - 1][col - 1] ? 1 : 0;  //клетка слева сверху
+        } else {
+          counter += matrix[row][col - 1] ? 1 : 0;  //клетка слева
+          counter += matrix[row - 1][col - 1] ? 1 : 0;  //клетка слева сверху
+          counter += matrix[row][col + 1] ? 1 : 0;  //клетка справа
+          counter += matrix[row - 1][col + 1] ? 1 : 0;  //клетка справа сверху
+        }
+
+
+      } else {
+        counter += matrix[row + 1][col] ? 1 : 0;    //клетка снизу
+        counter += matrix[row - 1][col] ? 1 : 0;    //клетка сверху
+
+        if (col === 0) {
+          counter += matrix[row][col + 1] ? 1 : 0;  //клетка справа
+          counter += matrix[row + 1][col + 1] ? 1 : 0;  //клетка справа снизу
+          counter += matrix[row - 1][col + 1] ? 1 : 0;  //клетка справа сверху
+        } else if (col === matrix[row].length - 1) {
+          counter += matrix[row][col - 1] ? 1 : 0;  //клетка слева
+          counter += matrix[row + 1][col - 1] ? 1 : 0;  //клетка слева снизу
+          counter += matrix[row - 1][col - 1] ? 1 : 0;  //клетка слева сверху
+        } else {
+          counter += matrix[row][col - 1] ? 1 : 0;  //клетка слева
+          counter += matrix[row + 1][col - 1] ? 1 : 0;  //клетка слева снизу
+          counter += matrix[row - 1][col - 1] ? 1 : 0;  //клетка слева сверху
+          counter += matrix[row][col + 1] ? 1 : 0;  //клетка справа
+          counter += matrix[row + 1][col + 1] ? 1 : 0;  //клетка справа снизу
+          counter += matrix[row - 1][col + 1] ? 1 : 0;  //клетка справа сверху
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+
+      res[row][col] = counter;
+
+    }
+
+  }
+  console.log(res)
+  return res;
+
 }
 
 module.exports = {
