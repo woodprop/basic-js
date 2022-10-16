@@ -25,53 +25,60 @@ class VigenereCipheringMachine {
   }
 
   encrypt(message, key) {
+    if (!message || !key) {
+      console.log('ERROR');
+      throw new Error('Incorrect arguments!');
+    }
+
     const messageStr = message.toUpperCase().split(' ').join('');
     key = key.toUpperCase();
-
     const encryptedStr = this.machine(messageStr, key);
-    console.log(message)
-    console.log(messageStr)
-    console.log(encryptedStr)
 
+    return this.fixSpaces(message, encryptedStr);
+
+
+
+
+
+
+  }
+  decrypt(message, key) {
+    if (!message || !key) {
+      console.log('ERROR');
+      throw new Error('Incorrect arguments!');
+    }
+
+    const messageStr = message.toUpperCase().split(' ').join('');
+    key = key.toUpperCase();
+    const decryptedStr = this.machine(messageStr, key, 'decrypt');
+
+    return this.fixSpaces(message, decryptedStr);
+
+  }
+
+  fixSpaces(message, result){
     let res = '';
-
     let spaceIndexes = [];
     for (let i = 0; i < message.length; i++) {
       if (message[i] === ' ') spaceIndexes.push(i);
     }
-    console.log('spaves:', spaceIndexes)
 
-    if (spaceIndexes.length === 0) return encryptedStr;
-    console.log('OLOLO')
+    if (spaceIndexes.length === 0) return result;
 
-    res+= encryptedStr.substring(0, spaceIndexes[0]) + ' ';
-    console.log('res', res)
-
+    res+= result.substring(0, spaceIndexes[0]) + ' ';
     for (let i = 0; i < spaceIndexes.length - 1; i++) {
-      res+= encryptedStr.substring(spaceIndexes[i] - i, spaceIndexes[i + 1] - i - 1) + ' ';
+      res+= result.substring(spaceIndexes[i] - i, spaceIndexes[i + 1] - i - 1) + ' ';
     }
-    res+= encryptedStr.substring(spaceIndexes[spaceIndexes.length - 1] - spaceIndexes.length + 1);
 
+    res+= result.substring(spaceIndexes[spaceIndexes.length - 1] - spaceIndexes.length + 1);
 
     if (!this.mode) res = res.split('').reverse().join('');
-
-    // console.log(res);
-
     return res;
-
-
-
-
-
-  }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
   }
 
 
   machine(message, key, mode = 'encrypt'){
-    let a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    let a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     const maxlength = message.length;
     let res = '';
@@ -80,15 +87,16 @@ class VigenereCipheringMachine {
         res += message[i];
         continue;
       }
-      const mi = a.indexOf( message[((i >= message.length) ? i % message.length : i)] );
-      const ki_s = key[ ((i >= key.length) ? i % key.length : i) ];
+      const mi = a.indexOf(message[((i >= message.length) ? i % message.length : i)]);
+      const ki_s = key[((i >= key.length) ? i % key.length : i)];
 
-      let ki = a.indexOf( ki_s );
+      let ki = a.indexOf(ki_s);
       ki = ((typeof mode !== 'undefined' && mode.indexOf('decrypt') !== -1) ? (-ki) : ki);
-      const c = a[((( a.length + (mi + ki)) % a.length ))];				//символ по таблице Виженера.
-      res += c;		    												//Добавить символ к результату.
+
+      const c = a[(((a.length + (mi + ki)) % a.length))];
+      res += c;
     }
-    return res; //вернуть строку результата
+    return res;
   }
 }
 
