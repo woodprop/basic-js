@@ -26,7 +26,6 @@ class VigenereCipheringMachine {
 
   encrypt(message, key) {
     if (!message || !key) {
-      console.log('ERROR');
       throw new Error('Incorrect arguments!');
     }
 
@@ -44,16 +43,14 @@ class VigenereCipheringMachine {
   }
   decrypt(message, key) {
     if (!message || !key) {
-      console.log('ERROR');
       throw new Error('Incorrect arguments!');
     }
 
+    if (!this.mode) message = message.split('').reverse().join('')
     const messageStr = message.toUpperCase().split(' ').join('');
     key = key.toUpperCase();
     const decryptedStr = this.machine(messageStr, key, 'decrypt');
-
-    return this.fixSpaces(message, decryptedStr);
-
+    return this.mode ? this.fixSpaces(message, decryptedStr) : this.fixSpaces(message, decryptedStr).split('').reverse().join('');
   }
 
   fixSpaces(message, result){
